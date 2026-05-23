@@ -1,0 +1,27 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  storageAccountName: <YOUR_STORAGE_NAME>
+
+steps:
+
+- checkout: self
+
+# Upload HTML files to Azure Blob
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'azure-connection'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      echo "Uploading files to Azure Blob Storage..."
+
+      az storage blob upload-batch \
+        --account-name ${{ variables.storageAccountName }} \
+        --destination '$web' \
+        --source . \
+        --overwrite
