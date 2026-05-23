@@ -5,20 +5,18 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  storageAccountName: <YOUR_STORAGE_NAME>
+  storageAccountName: poc33   # change if your storage name is different
 
 steps:
-
 - checkout: self
 
-# Upload HTML files to Azure Blob
 - task: AzureCLI@2
   inputs:
-    azureSubscription: 'azure-connection'
+    azureSubscription: 'azure-connection'   # your service connection name
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      echo "Uploading files to Azure Blob Storage..."
+      echo "Uploading files to Azure Blob..."
 
       az storage blob upload-batch \
         --account-name ${{ variables.storageAccountName }} \
